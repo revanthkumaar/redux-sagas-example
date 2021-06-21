@@ -15,6 +15,27 @@ const reducer = (state=initialState,action) => {
 
             };
 
+        case 'REQUESTED_IMAGE':
+            return{
+                url:'',
+                loading:true,
+                error:false
+            };
+        case 'REQUESTED_IMAGE_SUCCESS'{
+            return {
+                url: action.url,
+                loading: false,
+                error: false
+            }
+        };
+        case 'REQUESTED_IMAGE_ERROR'{
+            return {
+                url: '',
+                loading: false,
+                error: true
+            }
+        };
+
         default:
             return state;
     }
