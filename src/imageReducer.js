@@ -5,12 +5,8 @@ const initialState = {
     error:false
 }
 //REDUCER 
-const reducer = (state=initialState,action) => {
+const imageReducer = (state=initialState,action) => {
     switch(action.type){
-        case 'FETCHED_IMAGE':
-            return{
-
-            };
         case 'REQUESTED_IMAGE':
             return{
                 url:'',
