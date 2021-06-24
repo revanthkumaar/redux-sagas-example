@@ -1,8 +1,29 @@
-import React from 'react';
+useEffect(() => {
+    let cancelRequest = false;
+    if (!url) return;
 
-const useCounter = (initialState = 0) => {
-      const [count, setCount] = useState(initialState);
-      const add = () => setCount(count + 1);
-      const subtract = () => setCount(count - 1);
-      return { count, add, subtract };
-};
+    const fetchData = async () => {
+        dispatch({ type: 'FETCHING' });
+        if (cache.current[url]) {
+            const data = cache.current[url];
+            dispatch({ type: 'FETCHED', payload: data });
+        } else {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                cache.current[url] = data;
+                if (cancelRequest) return;
+                dispatch({ type: 'FETCHED', payload: data });
+            } catch (error) {
+                if (cancelRequest) return;
+                dispatch({ type: 'FETCH_ERROR', payload: error.message });
+            }
+        }
+    };
+
+    fetchData();
+
+    return function cleanup() {
+        cancelRequest = true;
+    };
+}, [url]);
